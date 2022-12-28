@@ -16,9 +16,13 @@ steps:
     includeRootFolder: false
 
 
-- task: DotNetCoreCLI@2
-  displayName: Build
+- task: IISWebAppDeploymentOnMachineGroup@0
   inputs:
-    command: build
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    WebSiteName: 'myweb'
+    Package: '$(System.DefaultWorkingDirectory)\**\*.zip'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
